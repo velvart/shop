@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velvart — Shop Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           Reset & Velvart Root Variable System
+           ========================================================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        :root {
+            --blue: #0047AB;
+            --blue-dark: #003380;
+            --blue-light: #e6eef9;
+            --white: #ffffff;
+            --off-white: #f8f9fb;
+            --text: #0a0a0a;
+            --text-muted: #6b7280;
+            --border: #e2e8f0;
+            --error: #c0392b;
+            --ease: cubic-bezier(0.25, 1, 0.5, 1);
+            --font-display: Impact, 'Arial Narrow', sans-serif;
+            --font-primary: 'Inter', sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-primary);
+            background: var(--white);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ==========================================================================
+           Navigation Bar
+           ========================================================================== */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,0.96);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            height: 90px;
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo img {
+            height: 72px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--blue);
+        }
+
+        .btn-admin-nav {
+            background: none;
+            border: 1px solid var(--blue);
+            color: var(--blue);
+            padding: 10px 24px;
+            font-size: 11px;
+            font-family: var(--font-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: background 0.3s var(--ease), color 0.3s var(--ease);
+        }
+
+        .btn-admin-nav:hover {
+            background: var(--blue);
+            color: var(--white);
+        }
+
+        /* ==========================================================================
+           Hero Section
+           ========================================================================== */
+        .hero-section {
+            position: relative;
+            height: 62vh;
+            min-height: 480px;
+            padding-top: 90px;
+            background: var(--blue);
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 60%, #0060d6 100%);
+        }
+
+        .hero-section::after {
+            content: 'SHOP';
+            position: absolute;
+            right: -20px;
+            bottom: -40px;
+            font-family: var(--font-display);
+            font-size: clamp(160px, 20vw, 280px);
+            color: rgba(255,255,255,0.05);
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            width: 100%;
+            animation: fadeInHero 1s var(--ease) forwards;
+        }
+
+        .hero-eyebrow {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(48px, 7vw, 96px);
+            font-weight: 400;
+            line-height: 1;
+            color: var(--white);
+            letter-spacing: 0.01em;
+            margin-bottom: 22px;
+        }
+
+        .hero-tagline {
+            font-size: 16px;
+            font-weight: 300;
+            color: rgba(255,255,255,0.8);
+            max-width: 480px;
+            line-height: 1.7;
+            letter-spacing: 0.02em;
+        }
+
+        /* ==========================================================================
+           Marquee Strip
+           ========================================================================== */
+        .marquee-wrap {
+            background: var(--text);
+            color: var(--white);
+            padding: 13px 0;
+            overflow: hidden;
+        }
+
+        .marquee-track {
+            display: flex;
+            white-space: nowrap;
+            animation: marquee 24s linear infinite;
+        }
+
+        .marquee-item {
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            font-weight: 500;
+            padding: 0 40px;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* ==========================================================================
+           Collection Feed / Main Grid
+           ========================================================================== */
+        .collection-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 90px 40px;
+        }
+
+        .section-header-block {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid var(--blue);
+            padding-bottom: 20px;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(28px, 3.5vw, 48px);
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--blue);
+        }
+
+        .section-counter {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+        }
+
+        .posters-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 56px 36px;
+        }
+
+        /* Poster Card */
+        .poster-card {
+            opacity: 0;
+            transform: translateY(28px);
+            animation: cardEntrance 0.7s var(--ease) forwards;
+        }
+
+        .card-frame {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .card-frame:hover .card-image img {
+            transform: scale(1.04);
+        }
+
+        .card-frame:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .card-image {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            background: var(--off-white);
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.55s var(--ease);
+            display: block;
+        }
+
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,71,171,0.78);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-overlay span {
+            color: var(--white);
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border: 1px solid rgba(255,255,255,0.6);
+            padding: 10px 24px;
+        }
+
+        .btn-card-delete {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: var(--white);
+            color: var(--text);
+            border: none;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            opacity: 0;
+            z-index: 10;
+            transition: opacity 0.25s ease, background 0.25s ease, color 0.25s ease;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+        }
+
+        .card-frame:hover .btn-card-delete {
+            opacity: 1;
+        }
+
+        .btn-card-delete:hover {
+            background: var(--error);
+            color: var(--white);
+        }
+
+        .card-date {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text);
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .card-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.65;
+            font-weight: 400;
+        }
+
+        /* Empty State */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 110px 0;
+            border: 1px dashed var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .empty-state-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--blue);
+        }
+
+        .empty-state-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+        }
+
+        /* ==========================================================================
+           Admin Login Modal
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s var(--ease);
+        }
+
+        .modal-overlay.is-active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .auth-card {
+            background: var(--white);
+            padding: 52px 44px;
+            width: 100%;
+            max-width: 460px;
+            position: relative;
+            transform: scale(0.94);
+            transition: transform 0.4s var(--ease);
+            border-top: 4px solid var(--blue);
+        }
+
+        .modal-overlay.is-active .auth-card {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 22px;
+            right: 24px;
+            font-size: 28px;
+            line-height: 1;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover { color: var(--text); }
+
+        .auth-eyebrow {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .auth-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text);
+            margin-bottom: 6px;
+            text-align: center;
+        }
+
+        .auth-subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 36px;
+            text-align: center;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .input-group label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            font-family: var(--font-primary);
+            font-size: 14px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.25s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--blue);
+        }
+
+        .auth-error {
+            font-size: 12px;
+            color: var(--error);
+            letter-spacing: 0.04em;
+            text-align: center;
+            display: none;
+        }
+
+        .btn-auth-submit {
+            background: var(--blue);
+            color: var(--white);
+            border: none;
+            padding: 15px;
+            font-family: var(--font-primary);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            cursor: pointer;
+            transition: background 0.25s;
+        }
+
+        .btn-auth-submit:hover {
+            background: var(--blue-dark);
+        }
+
+        /* ==========================================================================
+           Admin Dashboard Panel
+           ========================================================================== */
+        .admin-panel {
+            background: var(--off-white);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 80px 0;
+            display: none;
+        }
+
+        .admin-panel.is-visible {
+            display: block;
+            animation: panelSlide 0.55s var(--ease);
+        }
+
+        .admin-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 24px;
+            margin-bottom: 44px;
+        }
+
+        .admin-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--blue);
+        }
+
+        .admin-subtitle {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .btn-logout {
+            background: none;
+            border: 1px solid var(--error);
+            color: var(--error);
+            padding: 10px 22px;
+            font-family: var(--font-primary);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: background 0.25s, color 0.25s;
+        }
+
+        .btn-logout:hover {
+            background: var(--error);
+            color: var(--white);
+        }
+
+        .panel-heading {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text);
+            margin-bottom: 28px;
+        }
+
+        .publish-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 40px;
+        }
+
+        /* Drop Zone */
+        .drop-zone-label {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            border: 2px dashed var(--border);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        .drop-zone-label:hover {
+            border-color: var(--blue);
+            background: var(--blue-light);
+        }
+
+        .drop-prompt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            gap: 6px;
+        }
+
+        .drop-icon {
+            font-size: 36px;
+            color: var(--blue);
+            line-height: 1;
+        }
+
+        .drop-text {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text);
+        }
+
+        .drop-sub {
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+        }
+
+        .preview-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        /* Form fields */
+        .fields-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field-group label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text);
+        }
+
+        .field-group input,
+        .field-group textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            font-family: var(--font-primary);
+            font-size: 14px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.25s;
+        }
+
+        .field-group input:focus,
+        .field-group textarea:focus {
+            border-color: var(--blue);
+        }
+
+        .field-group textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .btn-publish {
+            background: var(--blue);
+            color: var(--white);
+            border: none;
+            padding: 16px;
+            font-family: var(--font-primary);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            cursor: pointer;
+            margin-top: auto;
+            transition: background 0.25s;
+        }
+
+        .btn-publish:hover {
+            background: var(--blue-dark);
+        }
+
+        /* ==========================================================================
+           Footer
+           ========================================================================== */
+        footer {
+            border-top: 1px solid var(--border);
+            background: var(--white);
+            padding: 40px 0;
+            margin-top: 100px;
+        }
+
+        .footer-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo img {
+            height: 52px;
+        }
+
+        .footer-copy {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+        }
+
+        .footer-badges {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-badge {
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            color: var(--text-muted);
+        }
+
+        /* ==========================================================================
+           Animations
+           ========================================================================== */
+        @keyframes fadeInHero {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes cardEntrance {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes panelSlide {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================================
+           Responsive
+           ========================================================================== */
+        @media (max-width: 1100px) {
+            .posters-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+        }
+
+        @media (max-width: 768px) {
+            .posters-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .publish-form-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 52px; }
+            .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+            .footer-badges { justify-content: center; }
+        }
+
+        /* ==========================================================================
+           Order Form Section
+           ========================================================================== */
+        .order-section {
+            background: var(--off-white);
+            border-top: 1px solid var(--border);
+            padding: 100px 0;
+            scroll-margin-top: 90px;
+        }
+
+        .order-inner {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .order-eyebrow {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 10px;
+        }
+
+        .order-heading {
+            font-family: var(--font-display);
+            font-size: clamp(32px, 4vw, 52px);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .order-subheading {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 52px;
+            max-width: 520px;
+        }
+
+        .order-selected-banner {
+            background: var(--blue);
+            color: var(--white);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+            pointer-events: none;
+        }
+
+        .order-selected-banner.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .order-selected-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 4px;
+        }
+
+        .order-selected-name {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .order-clear-btn {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.35);
+            color: rgba(255,255,255,0.8);
+            font-family: var(--font-primary);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+            flex-shrink: 0;
+        }
+
+        .order-clear-btn:hover {
+            border-color: var(--white);
+            color: var(--white);
+        }
+
+        .order-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .order-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 24px;
+        }
+
+        .order-field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            margin-bottom: 24px;
+        }
+
+        .order-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .order-field label {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text);
+        }
+
+        .order-field input,
+        .order-field select,
+        .order-field textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid var(--border);
+            border-bottom: 2px solid var(--border);
+            background: var(--white);
+            font-family: var(--font-primary);
+            font-size: 14px;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            appearance: none;
+        }
+
+        .order-field input:focus,
+        .order-field select:focus,
+        .order-field textarea:focus {
+            border-color: var(--blue);
+            border-bottom-color: var(--blue);
+            box-shadow: 0 2px 0 0 var(--blue);
+        }
+
+        .order-field input::placeholder,
+        .order-field textarea::placeholder {
+            color: #b0b7c3;
+        }
+
+        .order-field textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .order-field select {
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230047AB' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+
+        .order-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 8px 0 32px;
+        }
+
+        .order-section-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .order-section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .btn-submit-order {
+            background: var(--text);
+            color: var(--white);
+            border: none;
+            padding: 18px 48px;
+            font-family: var(--font-primary);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            cursor: pointer;
+            align-self: flex-start;
+            transition: background 0.3s var(--ease), transform 0.15s;
+            position: relative;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .btn-submit-order::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--blue);
+            transform: translateX(-100%);
+            transition: transform 0.4s var(--ease);
+            z-index: 0;
+        }
+
+        .btn-submit-order:hover::before {
+            transform: translateX(0);
+        }
+
+        .btn-submit-order span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-submit-order:hover {
+            transform: translateY(-2px);
+        }
+
+        .order-success-msg {
+            display: none;
+            background: #f0faf5;
+            border: 1px solid #b7e4cc;
+            border-left: 4px solid #22a06b;
+            padding: 20px 24px;
+            margin-top: 24px;
+        }
+
+        .order-success-msg p:first-child {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a6b46;
+            margin-bottom: 4px;
+        }
+
+        .order-success-msg p:last-child {
+            font-size: 13px;
+            color: #2d8a5e;
+        }
+
+        @media (max-width: 768px) {
+            .order-inner { padding: 0 20px; }
+            .order-form-grid { grid-template-columns: 1fr; }
+            .order-field.full-width { grid-column: auto; }
+            .btn-submit-order { width: 100%; text-align: center; }
+            .order-section { padding: 64px 0; }
+            .order-selected-banner { flex-direction: column; align-items: flex-start; gap: 12px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <div class="nav-logo">
+                <a href="index.html"><img src="logo.png" alt="Velvart"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#collection">Collection</a></li>
+                <li><a href="shop.html" class="active">Shop</a></li>
+                <li><a href="index.html#why">About</a></li>
+            </ul>
+            <button class="btn-admin-nav" id="loginBtn">Admin Access</button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <span class="hero-eyebrow">Velvart Posters Exclusive</span>
+            <h1 class="hero-title">The Full<br>Collection</h1>
+            <p class="hero-tagline">Every piece in the Velvart catalogue — archival-grade prints, limited runs, made for walls that mean something.</p>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-wrap">
+        <div class="marquee-track">
+            <span class="marquee-item">Archival Inks</span>
+            <span class="marquee-item">Museum-Grade Paper</span>
+            <span class="marquee-item">Free Shipping India</span>
+            <span class="marquee-item">Limited Editions</span>
+            <span class="marquee-item">Handcrafted in India</span>
+            <span class="marquee-item">48-Hour Dispatch</span>
+            <span class="marquee-item">Premium Framing Available</span>
+            <span class="marquee-item">Archival Inks</span>
+            <span class="marquee-item">Museum-Grade Paper</span>
+            <span class="marquee-item">Free Shipping India</span>
+            <span class="marquee-item">Limited Editions</span>
+            <span class="marquee-item">Handcrafted in India</span>
+            <span class="marquee-item">48-Hour Dispatch</span>
+            <span class="marquee-item">Premium Framing Available</span>
+        </div>
+    </div>
+
+    <!-- COLLECTION GRID -->
+    <main class="collection-section">
+        <div class="section-header-block">
+            <h2 class="section-title">Current Drops</h2>
+            <p class="section-counter" id="posterCounter">00 // Posters Listed</p>
+        </div>
+        <div class="posters-grid" id="postersGrid"></div>
+    </main>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="auth-card">
+            <span class="modal-close" id="closeModal">&times;</span>
+            <p class="auth-eyebrow">Restricted Area</p>
+            <h2 class="auth-title">Admin Access</h2>
+            <p class="auth-subtitle">Velvart Control Gateway</p>
+            <form id="loginForm" class="auth-form">
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" id="username" autocomplete="username" placeholder="Enter username" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="password" autocomplete="current-password" placeholder="••••••••" required>
+                </div>
+                <div class="auth-error" id="authError">Invalid credentials. Access denied.</div>
+                <button type="submit" class="btn-auth-submit">Authorize Access</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <section class="admin-panel" id="adminPanel">
+        <div class="admin-inner">
+            <div class="admin-header">
+                <div>
+                    <div class="admin-title">Control Panel</div>
+                    <div class="admin-subtitle">Authenticated Session Active — CEO</div>
+                </div>
+                <button class="btn-logout" id="logoutBtn">End Session</button>
+            </div>
+
+            <form id="publishForm">
+                <div class="panel-heading">Publish New Poster</div>
+                <div class="publish-form-grid">
+                    <div>
+                        <label class="drop-zone-label" id="dropZone">
+                            <input type="file" id="imageInput" accept="image/*" style="display:none;" required>
+                            <div class="drop-prompt" id="dropPrompt">
+                                <span class="drop-icon">⊕</span>
+                                <span class="drop-text">Upload Poster Image</span>
+                                <span class="drop-sub">PNG · JPEG · WEBP</span>
+                            </div>
+                            <img id="previewImg" class="preview-img" alt="Preview">
+                        </label>
+                    </div>
+                    <div class="fields-col">
+                        <div class="field-group">
+                            <label for="posterTitle">Poster Title</label>
+                            <input type="text" id="posterTitle" placeholder="e.g., Dodge Challenger — Velvart Exclusive" required>
+                        </div>
+                        <div class="field-group">
+                            <label for="posterDesc">Description</label>
+                            <textarea id="posterDesc" placeholder="Describe the print — series, mood, design notes..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-publish">Publish to Collection</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+    <!-- ORDER FORM -->
+    <section class="order-section" id="orderSection">
+        <div class="order-inner">
+
+            <p class="order-eyebrow">Velvart Posters</p>
+            <h2 class="order-heading">Place Your Order</h2>
+            <p class="order-subheading">Fill in your details below and we will confirm your order within 24 hours. Archival-grade prints dispatched within 48 hours.</p>
+
+            <!-- Selected product banner (shown after Buy Now) -->
+            <div class="order-selected-banner" id="orderSelectedBanner">
+                <div>
+                    <div class="order-selected-label">Selected Print</div>
+                    <div class="order-selected-name" id="orderSelectedName">—</div>
+                </div>
+                <button class="order-clear-btn" type="button" onclick="clearProductSelection()">Clear</button>
+            </div>
+
+            <form
+                class="order-form"
+                id="orderForm"
+                action="https://formsubmit.co/officialvelvart@gmail.com"
+                method="POST"
+            >
+                <!-- FormSubmit config fields -->
+                <input type="hidden" name="_subject" value="New Velvart Poster Order">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="">
+
+                <!-- Hidden product field — auto-filled by buyProduct() -->
+                <input type="hidden" name="Product" id="productField" value="">
+
+                <div class="order-section-label">Customer Details</div>
+
+                <div class="order-form-grid">
+                    <div class="order-field">
+                        <label for="orderName">Full Name *</label>
+                        <input type="text" id="orderName" name="Full Name" placeholder="Your full name" required>
+                    </div>
+                    <div class="order-field">
+                        <label for="orderEmail">Email Address *</label>
+                        <input type="email" id="orderEmail" name="Email Address" placeholder="you@example.com" required>
+                    </div>
+                    <div class="order-field">
+                        <label for="orderPhone">Phone Number *</label>
+                        <input type="tel" id="orderPhone" name="Phone Number" placeholder="+91 XXXXX XXXXX" required>
+                    </div>
+                    <div class="order-field">
+                        <label for="orderQuantity">Quantity *</label>
+                        <select id="orderQuantity" name="Quantity" required>
+                            <option value="" disabled selected>Select quantity</option>
+                            <option value="1">1 Print</option>
+                            <option value="2">2 Prints</option>
+                            <option value="3">3 Prints</option>
+                            <option value="4">4 Prints</option>
+                            <option value="5">5 Prints</option>
+                        </select>
+                    </div>
+                    <div class="order-field full-width">
+                        <label for="orderAddress">Full Address *</label>
+                        <textarea id="orderAddress" name="Full Address" placeholder="House / Flat No., Street, Landmark…" required></textarea>
+                    </div>
+                    <div class="order-field">
+                        <label for="orderCity">City *</label>
+                        <input type="text" id="orderCity" name="City" placeholder="e.g. Mumbai" required>
+                    </div>
+                    <div class="order-field">
+                        <label for="orderState">State *</label>
+                        <select id="orderState" name="State" required>
+                            <option value="" disabled selected>Select state</option>
+                            <option>Andhra Pradesh</option>
+                            <option>Arunachal Pradesh</option>
+                            <option>Assam</option>
+                            <option>Bihar</option>
+                            <option>Chhattisgarh</option>
+                            <option>Goa</option>
+                            <option>Gujarat</option>
+                            <option>Haryana</option>
+                            <option>Himachal Pradesh</option>
+                            <option>Jharkhand</option>
+                            <option>Karnataka</option>
+                            <option>Kerala</option>
+                            <option>Madhya Pradesh</option>
+                            <option>Maharashtra</option>
+                            <option>Manipur</option>
+                            <option>Meghalaya</option>
+                            <option>Mizoram</option>
+                            <option>Nagaland</option>
+                            <option>Odisha</option>
+                            <option>Punjab</option>
+                            <option>Rajasthan</option>
+                            <option>Sikkim</option>
+                            <option>Tamil Nadu</option>
+                            <option>Telangana</option>
+                            <option>Tripura</option>
+                            <option>Uttar Pradesh</option>
+                            <option>Uttarakhand</option>
+                            <option>West Bengal</option>
+                            <option>Delhi</option>
+                            <option>Jammu &amp; Kashmir</option>
+                            <option>Ladakh</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="order-field">
+                        <label for="orderPincode">Pincode *</label>
+                        <input type="text" id="orderPincode" name="Pincode" placeholder="6-digit pincode" maxlength="6" pattern="[0-9]{6}" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit-order">
+                    <span>Confirm Order</span>
+                </button>
+
+                <div class="order-success-msg" id="orderSuccessMsg">
+                    <p>✓ Order received — thank you!</p>
+                    <p>We will reach out to you within 24 hours to confirm dispatch details.</p>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-logo">
+                <img src="logo.png" alt="Velvart">
+            </div>
+            <div class="footer-copy">© 2026 Velvart. All rights reserved.</div>
+            <div class="footer-badges">
+                <span class="footer-badge">Secure Checkout</span>
+                <span class="footer-badge">Made in India</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Storage & Auth Keys
+            const STORAGE_KEY = 'velvart_shop_posters';
+            const AUTH_KEY    = 'velvart_admin_auth';
+
+            // Admin credentials
+            const CREDS = { user: 'ceo', pass: '19/12/13' };
+
+            // DOM Refs
+            const loginBtn   = document.getElementById('loginBtn');
+            const loginModal = document.getElementById('loginModal');
+            const closeModal = document.getElementById('closeModal');
+            const loginForm  = document.getElementById('loginForm');
+            const authError  = document.getElementById('authError');
+            const adminPanel = document.getElementById('adminPanel');
+            const logoutBtn  = document.getElementById('logoutBtn');
+            const postersGrid   = document.getElementById('postersGrid');
+            const posterCounter = document.getElementById('posterCounter');
+            const publishForm   = document.getElementById('publishForm');
+            const imageInput    = document.getElementById('imageInput');
+            const dropZone      = document.getElementById('dropZone');
+            const dropPrompt    = document.getElementById('dropPrompt');
+            const previewImg    = document.getElementById('previewImg');
+
+            let activeImageBase64 = null;
+
+            // ── Auth Helpers ──────────────────────────────────────────────
+            const isAuth = () => localStorage.getItem(AUTH_KEY) === 'true';
+
+            const syncSessionUI = () => {
+                if (isAuth()) {
+                    adminPanel.classList.add('is-visible');
+                    loginBtn.textContent = 'Control Panel';
+                } else {
+                    adminPanel.classList.remove('is-visible');
+                    loginBtn.textContent = 'Admin Access';
+                }
+                renderGrid();
+            };
+
+            const openModal = () => {
+                loginModal.classList.add('is-active');
+                authError.style.display = 'none';
+            };
+
+            const closeModalFn = () => {
+                loginModal.classList.remove('is-active');
+                loginForm.reset();
+            };
+
+            // ── Login / Logout ────────────────────────────────────────────
+            loginBtn.addEventListener('click', () => {
+                if (isAuth()) {
+                    adminPanel.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    openModal();
+                }
+            });
+
+            closeModal.addEventListener('click', closeModalFn);
+            window.addEventListener('click', e => { if (e.target === loginModal) closeModalFn(); });
+
+            loginForm.addEventListener('submit', e => {
+                e.preventDefault();
+                const u = document.getElementById('username').value.trim();
+                const p = document.getElementById('password').value;
+                if (u === CREDS.user && p === CREDS.pass) {
+                    localStorage.setItem(AUTH_KEY, 'true');
+                    closeModalFn();
+                    syncSessionUI();
+                    setTimeout(() => adminPanel.scrollIntoView({ behavior: 'smooth' }), 300);
+                } else {
+                    authError.style.display = 'block';
+                }
+            });
+
+            logoutBtn.addEventListener('click', () => {
+                localStorage.removeItem(AUTH_KEY);
+                syncSessionUI();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // ── Image Upload / Drop ───────────────────────────────────────
+            const loadImageFile = (file) => {
+                if (!file || !file.type.startsWith('image/')) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    activeImageBase64 = ev.target.result;
+                    previewImg.src = activeImageBase64;
+                    previewImg.style.display = 'block';
+                    dropPrompt.style.opacity = '0';
+                };
+                reader.readAsDataURL(file);
+            };
+
+            imageInput.addEventListener('change', e => loadImageFile(e.target.files[0]));
+
+            dropZone.addEventListener('dragover', e => {
+                e.preventDefault();
+                dropZone.style.borderColor = 'var(--blue)';
+            });
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.style.borderColor = 'var(--border)';
+            });
+            dropZone.addEventListener('drop', e => {
+                e.preventDefault();
+                dropZone.style.borderColor = 'var(--border)';
+                if (e.dataTransfer.files.length > 0) {
+                    imageInput.files = e.dataTransfer.files;
+                    loadImageFile(e.dataTransfer.files[0]);
+                }
+            });
+
+            // ── Data Helpers ──────────────────────────────────────────────
+            const getPosters = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            const savePosters = (arr) => localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+
+            // ── Publish ───────────────────────────────────────────────────
+            publishForm.addEventListener('submit', e => {
+                e.preventDefault();
+                if (!activeImageBase64) return;
+
+                const newItem = {
+                    id: 'poster_' + Date.now(),
+                    title: document.getElementById('posterTitle').value.trim(),
+                    desc: document.getElementById('posterDesc').value.trim(),
+                    image: activeImageBase64,
+                    date: new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })
+                };
+
+                const all = getPosters();
+                all.unshift(newItem);
+                savePosters(all);
+
+                publishForm.reset();
+                previewImg.style.display = 'none';
+                dropPrompt.style.opacity = '1';
+                activeImageBase64 = null;
+
+                renderGrid();
+            });
+
+            // ── Delete ────────────────────────────────────────────────────
+            window.deletePoster = (id) => {
+                if (!confirm('Remove this poster from the collection?')) return;
+                savePosters(getPosters().filter(p => p.id !== id));
+                renderGrid();
+            };
+
+            // ── Render Grid ───────────────────────────────────────────────
+            function renderGrid() {
+                const data = getPosters();
+                const auth = isAuth();
+
+                posterCounter.textContent = String(data.length).padStart(2, '0') + ' // Posters Listed';
+                postersGrid.innerHTML = '';
+
+                if (data.length === 0) {
+                    postersGrid.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-title">No Posters Yet</div>
+                            <div class="empty-state-sub">The collection is empty — publish your first drop above.</div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                data.forEach((poster, i) => {
+                    const card = document.createElement('article');
+                    card.className = 'poster-card';
+                    card.style.animationDelay = `${i * 0.08}s`;
+                    card.innerHTML = `
+                        <div class="card-frame">
+                            <div class="card-image">
+                                <img src="${poster.image}" alt="${poster.title}" loading="lazy">
+                                <div class="card-overlay" style="flex-direction:column;gap:14px;"><span>View Print</span><button onclick="event.stopPropagation();buyProduct(\'${poster.title}\')" style="background:var(--white);color:var(--text);border:none;padding:10px 28px;font-family:var(--font-primary);font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;" onmouseover="this.style.background='var(--text)';this.style.color='var(--white)'" onmouseout="this.style.background='var(--white)';this.style.color='var(--text)'">Buy Now</button></div>
+                                ${auth ? `<button class="btn-card-delete" onclick="deletePoster('${poster.id}')" title="Remove">✕</button>` : ''}
+                            </div>
+                            <div class="card-date">${poster.date}</div>
+                            <div class="card-title">${poster.title}</div>
+                            <div class="card-desc">${poster.desc}</div>
+                        </div>
+                    `;
+                    postersGrid.appendChild(card);
+                });
+            }
+
+
+            // ── Buy Now / Order Form ──────────────────────────────────────
+            window.buyProduct = function(productName) {
+                // Fill hidden product field
+                document.getElementById('productField').value = productName;
+
+                // Show the selected product banner
+                const banner = document.getElementById('orderSelectedBanner');
+                document.getElementById('orderSelectedName').textContent = productName;
+                banner.classList.add('visible');
+
+                // Smooth scroll to order section
+                document.getElementById('orderSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            };
+
+            window.clearProductSelection = function() {
+                document.getElementById('productField').value = '';
+                document.getElementById('orderSelectedName').textContent = '—';
+                document.getElementById('orderSelectedBanner').classList.remove('visible');
+            };
+
+            // Show success message on FormSubmit redirect-less submission
+            (function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('order') === 'success') {
+                    const msg = document.getElementById('orderSuccessMsg');
+                    if (msg) {
+                        msg.style.display = 'block';
+                        document.getElementById('orderSection').scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            })();
+
+            // Init
+            syncSessionUI();
+        });
+    </script>
+</body>
+</html>
